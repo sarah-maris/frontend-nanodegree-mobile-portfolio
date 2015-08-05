@@ -498,7 +498,6 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
 
 
-
 // Moves the sliding background pizzas based on scroll position
 function updatePositions() {
   frame++;
@@ -508,14 +507,14 @@ function updatePositions() {
   // calculate 5 possible phases outside of loop
   var phases = [];
   for (var p = 0; p < 5; p ++ ){
-	  phases[ p ] = Math.sin((document.body.scrollTop / 1250) + p);
+    phases[ p ] = Math.sin((document.body.scrollTop / 1250) + p);
   }
   var items = document.querySelectorAll('.mover');
-  //TODO: change to transform
+  // move pizzas using transform
   for (var i = 0; i < items.length; i++ ) {
-       items[i].style.left = items[i].basicLeft + 100 * phases[ i % 5 ] + 'px';
+    var move = (items[i].basicLeft + 100 * phases[ i % 5 ] - windowWidth/ 2 ) + 'px' ;
+     items[i].style.transform = 'translateX(' + move + ')'
   }
-
   
   // User Timing API to the rescue again. Seriously, it's worth learning.
   // Super easy to create custom metrics.
@@ -525,23 +524,23 @@ function updatePositions() {
     var timesToUpdatePosition = window.performance.getEntriesByName("measure_frame_duration");
     logAverageFrame(timesToUpdatePosition);
   }
-
 }
 
 // runs updatePositions on scroll
 window.addEventListener('scroll', updatePositions);
 
-
+// Calculate height and width of window
+var windowWidth = window.innerWidth;
+var windowHeight = window.innerHeight;
 
 // Generates the sliding pizzas when the page loads.
 // Number of pizzas is based on size of window
-
 document.addEventListener('DOMContentLoaded', function() {
   var s = 256;
-  var cols = Math.ceil( window.innerWidth/ s )
+  var cols = Math.ceil( windowWidth/ s );
   cols % 5 === 0 ? cols++ :cols; // pizzas don't move when multiples of 5
-  var rows = Math.ceil( window.innerHeight/ s )
- console.log( cols, rows );
+  var rows = Math.ceil( windowHeight/ s );
+  
   for (var i = 0; i < cols * rows ; i++) {  
     var elem = document.createElement('img');
     elem.className = 'mover';
