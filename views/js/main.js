@@ -421,39 +421,34 @@ var resizePizzas = function(size) {
 
   changeSliderLabel(size);
 
-  // Returns the size difference to change a pizza element from one size to another. Called by changePizzaSlices(size).
-  function determineDx (elem, size) {
-    var oldwidth = elem.offsetWidth;
-    var windowwidth = document.querySelector("#randomPizzas").offsetWidth;
-    var oldsize = oldwidth / windowwidth;
-
-    // TODO: change to 3 sizes? no more xl?
-    // Changes the slider value to a percent width
-    function sizeSwitcher (size) {
-      switch(size) {
-        case "1":
-          return 0.25;
-        case "2":
-          return 0.3333;
-        case "3":
-          return 0.5;
-        default:
-          console.log("bug in sizeSwitcher");
-      }
-    }
-
-    var newsize = sizeSwitcher(size);
-    var dx = (newsize - oldsize) * windowwidth;
-
-    return dx;
-  }
-
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
-    for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
-      var dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[i], size);
-      var newwidth = (document.querySelectorAll(".randomPizzaContainer")[i].offsetWidth + dx) + 'px';
-      document.querySelectorAll(".randomPizzaContainer")[i].style.width = newwidth;
+    var newWidth;
+
+    //Sets new pizza width to % of "randomPizzas" div
+    switch(size) {
+      case "1":
+        newWidth = '25%'; 
+        break; 
+
+      case "2":
+        newWidth = '33.33%';
+        break; 
+ 
+      case "3":
+        newWidth = '50%';
+        break; 
+
+      default:
+        console.log("bug in sizeSwitcher");
+    }
+
+    // Selects all of the pizza containers
+    var randomPizzas = document.querySelectorAll(".randomPizzaContainer");
+
+    // Resets widths of all pizza container based on new size
+    for (var i = 0; i < randomPizzas.length; i++) {
+      randomPizzas[i].style.width = newWidth;
     }
   }
 
@@ -502,15 +497,19 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
-  // move scrollTop calculation out of loop to avoid forced synchronous layout
+  // Determines where we are on page
   var scrollPosition = document.body.scrollTop;
-  // calculate 5 possible phases outside of loop
+  
+  // Calculates the 5 possible phases 
   var phases = [];
   for (var p = 0; p < 5; p ++ ){
     phases[ p ] = Math.sin((document.body.scrollTop / 1250) + p);
   }
+  
+  // Selects all of the sliding pizzas
   var items = document.querySelectorAll('.mover');
-  // move pizzas using transform
+  
+  // Moves pizzas using "transform: translateX()" to avoid triggering layout and paing
   for (var i = 0; i < items.length; i++ ) {
     var move = (items[i].basicLeft + 100 * phases[ i % 5 ] - windowWidth/ 2 ) + 'px' ;
      items[i].style.transform = 'translateX(' + move + ')'
@@ -529,18 +528,21 @@ function updatePositions() {
 // runs updatePositions on scroll
 window.addEventListener('scroll', updatePositions);
 
-// Calculate height and width of window
-var windowWidth = window.innerWidth;
+// Calculates height and width of window to use in determining number of pizzas
+// Width also used for offset in transformation of moving pizzas
+var windowWidth = window.innerWidth; 
 var windowHeight = window.innerHeight;
 
 // Generates the sliding pizzas when the page loads.
-// Number of pizzas is based on size of window
 document.addEventListener('DOMContentLoaded', function() {
   var s = 256;
-  var cols = Math.ceil( windowWidth/ s );
-  cols % 5 === 0 ? cols++ :cols; // pizzas don't move when multiples of 5
+  // Determine number of pizzas needed to fill the frame
   var rows = Math.ceil( windowHeight/ s );
+  var cols = Math.ceil( windowWidth/ s );
+  // Pizzas don't move nicely when cols is a multiple of 5 --> add 1 to fix
+  cols % 5 === 0 ? cols++ :cols;
   
+  //Create pizzas based on size of window (rows * cols)
   for (var i = 0; i < cols * rows ; i++) {  
     var elem = document.createElement('img');
     elem.className = 'mover';
