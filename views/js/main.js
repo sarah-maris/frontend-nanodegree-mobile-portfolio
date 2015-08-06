@@ -398,6 +398,9 @@ var pizzaElementGenerator = function(i) {
   return pizzaContainer;
 };
 
+// Selects all of the pizza containers
+var randomPizzas = document.getElementsByClassName("randomPizzaContainer");
+
 // resizePizzas(size) is called when the slider in the "Our Pizzas" section of the website moves.
 var resizePizzas = function(size) { 
   window.performance.mark("mark_start_resize");   // User Timing API function
@@ -442,9 +445,6 @@ var resizePizzas = function(size) {
       default:
         console.log("bug in sizeSwitcher");
     }
-
-    // Selects all of the pizza containers
-    var randomPizzas = document.querySelectorAll(".randomPizzaContainer");
 
     // Resets widths of all pizza container based on new size
     for (var i = 0; i < randomPizzas.length; i++) {
@@ -492,6 +492,8 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // The following code for sliding background pizzas was pulled from Ilya's demo found at:
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
 
+// Selects all of the sliding pizzas
+var movers = document.getElementsByClassName('mover');
 
 // Moves the sliding background pizzas based on scroll position
 function updatePositions() {
@@ -506,13 +508,10 @@ function updatePositions() {
     phases[ p ] = Math.sin((document.body.scrollTop / 1250) + p);
   }
   
-  // Selects all of the sliding pizzas
-  var items = document.querySelectorAll('.mover');
-  
   // Moves pizzas using "transform: translateX()" to avoid triggering layout and paing
-  for (var i = 0; i < items.length; i++ ) {
-    var move = (items[i].basicLeft + 100 * phases[ i % 5 ] - windowWidth/ 2 ) + 'px' ;
-     items[i].style.transform = 'translateX(' + move + ')'
+  for (var i = 0; i < movers.length; i++ ) {
+    var move = (movers[i].basicLeft + 100 * phases[ i % 5 ] - windowWidth/ 2 ) + 'px' ;
+     movers[i].style.transform = 'translateX(' + move + ')'
   }
   
   // User Timing API to the rescue again. Seriously, it's worth learning.
