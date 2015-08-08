@@ -6,15 +6,15 @@ var jshint = require('gulp-jshint');
 var ghPages = require('gulp-gh-pages');
 
 gulp.task('scripts', function(){
-    gulp.src('js/*.js')
+    gulp.src('views/js/*.js')
         .pipe(uglify())
-        .pipe(gulp.dest('js/app.min.js'));
+        .pipe(gulp.dest('views/js/app.min.js'));
 });
 
 gulp.task('styles', function(){
-    gulp.src('css/**/*.css')
+    gulp.src('views/css/**/*.css')
         .pipe(minifyCSS())
-        .pipe(gulp.dest('minCSS'));
+        .pipe(gulp.dest('views/minCSS'));
 });
 
 gulp.task('lint', function() {
@@ -28,7 +28,7 @@ gulp.task('watch', function(){
     gulp.watch('js/*.js', function(event) {
        console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
     });
-    gulp.watch('css/**/*.css', ['styles']);
+    gulp.watch('views/css/**/*.css', ['styles']);
     gulp.watch('views/js/*.js', ['lint']);
 });
 
@@ -42,3 +42,4 @@ gulp.task('default', ['scripts', 'styles', 'lint', 'watch']);
 //TODO:  Add concat
 // TODO: Add deploy gh-pages https://www.npmjs.com/package/gulp-gh-pages/
 //TODO:  Make deploy run after other tasks
+//TODO: Minimize images
