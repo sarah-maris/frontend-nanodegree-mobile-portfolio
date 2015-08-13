@@ -23,8 +23,9 @@
    Replaced document.querySelectorAll() with more efficient document.getElementsByClassName()
    Moved document.getElementsByClassName() out of function so it is not calculated with each move
    
-5) Compressed images and reduced size of pizzeria.jpg to reduce load time.
+5) Compressed and reduced size of images to reduce load time.
    Reduced width of pizzeria.jpg to 1440px 
-   Used gulp imagemin for pizza.png and imagemin-jpeg-recompress for pizzeria.jpg 
+   Created mover-pizza.png to make smaller image for moving pizza
+   Used gulp imagemin for pizza.png and mover-pizza.png and and imagemin-jpeg-recompress for pizzeria.jpg 
    
    

@@ -546,7 +546,7 @@ document.addEventListener('DOMContentLoaded', function() {
   for (var i = 0; i < cols * rows ; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
-    elem.src = "build/images/pizza.png";
+    elem.src = "build/images/mover-pizza.png";
     elem.style.height = "100px";
     elem.style.width = "73.333px";
     elem.basicLeft = (i % cols) * s;
