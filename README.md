@@ -25,7 +25,11 @@
    
 5) Compressed and reduced size of images to reduce load time.
    Reduced width of pizzeria.jpg to 1440px 
-   Created mover-pizza.png to make smaller image for moving pizza
+   Created mover-pizza.png to make smaller image for moving pizza and changed mover pizza with in main.js to match
    Used gulp imagemin for pizza.png and mover-pizza.png and and imagemin-jpeg-recompress for pizzeria.jpg 
+   
+6) Adjusted CSS
+   Removed size from .mover -- set in main.js
+   Concatenated style.css and bootstrap and then removed unneeded css with gulp-uncss
    
    
