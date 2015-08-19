@@ -2,8 +2,7 @@
 
 
 ####Part 1: Optimized PageSpeed Insights score for index.html
-
-
+1) Added media query (media="print") to print stylesheet link
 
 ####Part 2: Optimized Frames per Second in pizza.html
 1) Added "will-change: tranform" to .movers to makes the pizzas separate layers to reduce 
