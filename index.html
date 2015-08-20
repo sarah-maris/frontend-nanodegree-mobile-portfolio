@@ -7,22 +7,12 @@
     <meta name="author" content=" FILL ME IN ">
     <title>Cameron Pittman: Portfolio</title>
 
-    <!-- Hmm, what is the impact of web fonts on speed? Measure it... -->
-    <link href="//fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
-
     <link href="build/mincss/style.css" rel="stylesheet">
-    <link href="build/mincss/print.css" rel="stylesheet" media="print">
+    <link href="build/mincss/print.css" rel="stylesheet" media ="print">
     <link href="build/mincss/smartphone.css" rel="stylesheet" media="(max-width: 480px)">
 
-    <script>
-      (function(w,g){w['GoogleAnalyticsObject']=g;
-      w[g]=w[g]||function(){(w[g].q=w[g].q||[]).push(arguments)};w[g].l=1*new Date();})(window,'ga');
-
-      // TODO: replace with your Google Analytics profile ID.
-      ga('create', 'UA-XXXX-Y');
-      ga('send', 'pageview');
-    </script>
-    <script src="http://www.google-analytics.com/analytics.js"></script>
+    <script async src="build/minjs/ga.js"></script>
+    <script async src="http://www.google-analytics.com/analytics.js"></script>
     <script async src="build/minjs/perfmatters.js"></script>
   </head>
 
@@ -68,5 +58,16 @@
     <footer>
       <p>&copy; Web Performance 2014 <span id="crp-stats"></span></p>
     </footer>
+
+    <!-- Load fonts here -->
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+    <script>
+      WebFont.load({
+        google: {
+          families: ['Open+Sans:400,700']
+        }
+      });
+    </script>
+
   </body>
 </html>
