@@ -378,6 +378,7 @@ var pizzaElementGenerator = function(i) {
   pizzaContainer.id = "pizza" + i;                // gives each pizza element a unique id
   pizzaImageContainer.classList.add("col-md-6");
 
+  //Change to optimized pizza image to avoid resizing
   pizzaImage.src = "optimg/pizza.png";
   pizzaImage.classList.add("img-responsive");
   pizzaImageContainer.appendChild(pizzaImage);
@@ -535,14 +536,14 @@ var windowHeight = window.innerHeight;
 // Generates the sliding pizzas when the page loads.
 document.addEventListener('DOMContentLoaded', function() {
   var s = 256;
-  // Determine number of pizzas needed to fill the frame
+  // Determines number of pizzas needed to fill the frame
   var rows = Math.ceil( windowHeight/ s );
   var cols = Math.ceil( windowWidth/ s );
 
   // Pizzas don't move nicely when cols is a multiple of 5 --> add 1 to fix
   if ( cols % 5 === 0 ) cols++;
 
-  //Create pizzas based on size of window (rows * cols)
+  //Creates pizzas based on size of window (rows * cols)
   for (var i = 0; i < cols * rows ; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';

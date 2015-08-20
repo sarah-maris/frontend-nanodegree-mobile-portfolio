@@ -1,5 +1,7 @@
 ## Website Performance Optimization portfolio project
 
+To run the application: load build/index.html
+
 ####Part 1: Optimized PageSpeed Insights score for index.html
 1) Added media query (media="print") to print stylesheet link
 
