@@ -1,6 +1,5 @@
 ## Website Performance Optimization portfolio project
 
-
 ####Part 1: Optimized PageSpeed Insights score for index.html
 1) Added media query (media="print") to print stylesheet link
 
@@ -14,7 +13,9 @@
 
 4) Resized and compressed pizzeria image
    Used gulp-image-resize to create 100px wide image
-
+   
+5) Inlined CSS
+   Used gulp-inline-css 
 
 ####Part 2: Optimized Frames per Second in pizza.html
 1) Added "will-change: tranform" to .movers to makes the pizzas separate layers to reduce
@@ -39,7 +40,6 @@
    Created mover-pizza.png to make smaller image for moving pizza and changed mover pizza with in main.js to match
    Used gulp imagemin for pizza.png and mover-pizza.png and imagemin-jpeg-recompress for pizzeria.jpg
 
-6) Adjusted CSS
+6) Adjusted CSS to reduce load time
    Removed size from .mover -- set in main.js
    Concatenated style.css and bootstrap and then removed unneeded css with gulp-uncss
-
