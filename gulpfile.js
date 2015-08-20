@@ -3,6 +3,8 @@ var gulp = require('gulp');
 var uglify = require('gulp-uglify');
 var minifyCSS = require('gulp-minify-css');
 var jshint = require('gulp-jshint');
+var imageResize = require('gulp-image-resize');
+var rename = require("gulp-rename");
 var imagemin = require('gulp-imagemin');
 var pngquant = require('imagemin-pngquant');
 var imageminJpegRecompress = require('imagemin-jpeg-recompress');
@@ -18,7 +20,8 @@ var paths = {
     pizzajs: ['views/js/*.js'],
     portfoliostyles: ['css/**/*.css'],
     portfolioimages: ['img/*'],
-    portfoliojs: ['js/*.js']
+    portfoliojs: ['js/*.js'],
+    pizzeria: ['views/images/pizzeria.jpg']
 }
 
 //Minify js
@@ -98,18 +101,38 @@ gulp.task('portfolio-png-images', function() {
 })
 
 //Compress jpg images
-gulp.task('pizza-jpg-images', function () {
-    return gulp.src(paths.pizzaimages + '.jpg')
-        .pipe(imageminJpegRecompress({loops: 3})())
-        .pipe(gulp.dest('views/build/images'));
-});
-
 gulp.task('portfolio-jpg-images', function () {
     return gulp.src(paths.portfolioimages + '.jpg')
         .pipe(imageminJpegRecompress({loops: 3})())
         .pipe(gulp.dest('build/optimg'));
 });
 
+//Re-size pizzeria image
+gulp.task('pizzeria-resize', function () {
+  gulp.src(paths.pizzeria)
+    .pipe(imageResize({
+      width : 1440,
+      imageMagick: true,
+      crop: false,
+      upscale : false,
+      quality: 0.5
+    }))
+    .pipe(rename(function (path) { path.basename += "_1440px"; }))
+    .pipe(gulp.dest('views/build/images'));
+});
+
+gulp.task('portfolio-resize', function () {
+  gulp.src(paths.pizzeria)
+    .pipe(imageResize({
+      width : 100,
+      imageMagick: true,
+      crop: false,
+      upscale : false,
+      quality: 0.5
+    }))
+    .pipe(rename(function (path) { path.basename += "_100px"; }))
+    .pipe(gulp.dest('build/optimg'));
+});
 
 //Watch for changes
 gulp.task('watch', function(){
@@ -135,6 +158,6 @@ gulp.task('deploy', function() {
     .pipe(ghPages());
 });
 
-gulp.task('pizza', ['pizza-scripts', 'pizza-styles', 'pizza-lint', 'pizza-png-images', 'pizza-jpg-images','watch']);
+gulp.task('pizza', ['pizza-scripts', 'pizza-styles', 'pizza-lint', 'pizza-png-images', 'pizzeria-resize','watch']);
 
-gulp.task('portfolio', ['portfolio-scripts', 'portfolio-styles', 'portfolio-lint', 'portfolio-png-images', 'portfolio-jpg-images','watch']);
+gulp.task('portfolio', ['portfolio-scripts', 'portfolio-styles', 'portfolio-lint', 'portfolio-png-images', 'portfolio-resize', 'portfolio-jpg-images','watch']);

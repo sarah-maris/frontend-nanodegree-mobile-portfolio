@@ -8,8 +8,11 @@
    Used gulp-uncss to remove unneeded CSS and minified it
    Minified js
 
-3) Compressed images
-   Used gulp imagemin pngs and imagemin-jpeg-recompress for jpgs
+3) Compressed profile picture
+   Used gulp-imagemin
+
+4) Resized pizzeria image
+   Used gulp-image-resize to create 100px wide image
 
 
 ####Part 2: Optimized Frames per Second in pizza.html
