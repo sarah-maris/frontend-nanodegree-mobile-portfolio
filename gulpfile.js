@@ -36,6 +36,7 @@ gulp.task('pizza-scripts', function(){
 gulp.task('portfolio-scripts', function(){
     return gulp.src(paths.portfoliojs)
         .pipe(sourcemaps.init())
+            .pipe(concat('main.js'))
             .pipe(uglify())
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('build/minjs/'));
@@ -103,7 +104,7 @@ gulp.task('portfolio-png-images', function() {
 //Compress jpg images
 gulp.task('portfolio-jpg-images', function () {
     return gulp.src(paths.portfolioimages + '.jpg')
-        .pipe(imageminJpegRecompress({loops: 3})())
+        .pipe(imageminJpegRecompress({loops: 6})())
         .pipe(gulp.dest('build/optimg'));
 });
 
@@ -128,7 +129,7 @@ gulp.task('portfolio-resize', function () {
       imageMagick: true,
       crop: false,
       upscale : false,
-      quality: 0.5
+      quality: 0.3
     }))
     .pipe(rename(function (path) { path.basename += "_100px"; }))
     .pipe(gulp.dest('build/optimg'));

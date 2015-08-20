@@ -6,12 +6,13 @@
 
 2) Minified CSS and JS
    Used gulp-uncss to remove unneeded CSS and minified it
-   Minified js
+   Moved Google Analytics script to file, concatentated with perfmatter.js and minified into main.js
+   Added "async" tag to main.js
 
 3) Compressed profile picture
    Used gulp-imagemin
 
-4) Resized pizzeria image
+4) Resized and compressed pizzeria image
    Used gulp-image-resize to create 100px wide image
 
 
