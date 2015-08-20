@@ -11,18 +11,40 @@ var imageminJpegRecompress = require('imagemin-jpeg-recompress');
 var uncss = require('gulp-uncss');
 var sourcemaps = require('gulp-sourcemaps');
 var concat = require('gulp-concat');
+var minifyHTML = require('gulp-minify-html');
 var ghPages = require('gulp-gh-pages');
 
 // Paths to files
 var paths = {
-    pizzastyles: ['views/css/**/*.css'],
-    pizzaimages: ['views/images/*'],
-    pizzajs: ['views/js/*.js'],
-    portfoliostyles: ['css/**/*.css'],
-    portfolioimages: ['img/*'],
-    portfoliojs: ['js/*.js'],
-    pizzeria: ['views/images/pizzeria.jpg']
+    pizzastyles: ['src/views/css/**/*.css'],
+    pizzaimages: ['src/views/images/*'],
+    pizzajs: ['src/views/js/*.js'],
+    pizzacontent: ['src/views/*.html'],
+    portfoliostyles: ['src/css/**/*.css'],
+    portfolioimages: ['src/img/*'],
+    portfoliojs: ['src/js/*.js'],
+    portfoliocontent: ['src/*.html'],
+    pizzeria: ['src/views/images/pizzeria.jpg']
 }
+
+//Minify html
+gulp.task('pizza-html', function() {
+    return gulp.src(paths.pizzacontent)
+        .pipe(minifyHTML({
+            empty: true,
+            quotes: true
+        }))
+        .pipe(gulp.dest('build/views/'));
+});
+
+gulp.task('portfolio-html', function() {
+    return gulp.src(paths.portfoliocontent)
+        .pipe(minifyHTML({
+            empty: true,
+            quotes: true
+        }))
+        .pipe(gulp.dest('build/'));
+});
 
 //Minify js
 gulp.task('pizza-scripts', function(){
@@ -30,7 +52,7 @@ gulp.task('pizza-scripts', function(){
         .pipe(sourcemaps.init())
             .pipe(uglify())
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest('views/js/app.min.js/'));
+        .pipe(gulp.dest('build/views/minjs/'));
 });
 
 gulp.task('portfolio-scripts', function(){
@@ -48,19 +70,19 @@ gulp.task('pizza-styles', function(){
         .pipe(sourcemaps.init())
             .pipe(concat('main.css'))
             .pipe(uncss({
-                html: ['views/pizza.html'],
+                html: ['src/views/pizza.html'],
                 ignore: ['.mover'] //uncss doesn't see this in pizza.html because it is generated in main.js
              }))
             .pipe(minifyCSS())
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest('views/minCSS'));
+        .pipe(gulp.dest('build/views/minCSS'));
 });
 
 gulp.task('portfolio-styles', function(){
     return gulp.src(paths.portfoliostyles)
         .pipe(sourcemaps.init())
             .pipe(uncss({
-                html: ['*.html']
+                html: ['src/*.html']
              }))
             .pipe(minifyCSS())
         .pipe(sourcemaps.write())
@@ -88,7 +110,7 @@ gulp.task('pizza-png-images', function() {
     svgoPlugins: [{removeViewBox: false}],
     use: [pngquant()]
     }))
-  .pipe(gulp.dest('views/build/images'))
+  .pipe(gulp.dest('build/views/optimg'))
 })
 
 gulp.task('portfolio-png-images', function() {
@@ -119,7 +141,7 @@ gulp.task('pizzeria-resize', function () {
       quality: 0.5
     }))
     .pipe(rename(function (path) { path.basename += "_1440px"; }))
-    .pipe(gulp.dest('views/build/images'));
+    .pipe(gulp.dest('build/views/optimg'));
 });
 
 gulp.task('portfolio-resize', function () {
@@ -144,6 +166,7 @@ gulp.task('watch', function(){
     gulp.watch( paths.pizzastyles, ['pizza-styles']);
     gulp.watch( paths.pizzajs, ['pizza-lint']);
     gulp.watch( paths.pizzaimages, ['pizza-png-images','pizza-jpg-images']);
+    gulp.watch( paths.pizzahtml, ['pizza-html']);
     gulp.watch( paths.portfoliojs, ['portfolio-scripts']);
     gulp.watch( paths.portfoliojs, function(event) {
        console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
@@ -151,6 +174,7 @@ gulp.task('watch', function(){
     gulp.watch( paths.portfoliostyles, ['portfolio-styles']);
     gulp.watch( paths.portfoliojs, ['portfolio-lint']);
     gulp.watch( paths.portfolioimages, ['portfolio-png-images','portfolio-jpg-images']);
+    gulp.watch( paths.portfoliohtml, ['portfolio-html']);
 });
 
 //Push changes to github pages
@@ -159,6 +183,6 @@ gulp.task('deploy', function() {
     .pipe(ghPages());
 });
 
-gulp.task('pizza', ['pizza-scripts', 'pizza-styles', 'pizza-lint', 'pizza-png-images', 'pizzeria-resize','watch']);
+gulp.task('pizza', ['pizza-html','pizza-scripts', 'pizza-styles', 'pizza-lint', 'pizza-png-images', 'pizzeria-resize','watch']);
 
-gulp.task('portfolio', ['portfolio-scripts', 'portfolio-styles', 'portfolio-lint', 'portfolio-png-images', 'portfolio-resize', 'portfolio-jpg-images','watch']);
+gulp.task('portfolio', ['portfolio-html','portfolio-scripts', 'portfolio-styles', 'portfolio-lint', 'portfolio-png-images', 'portfolio-resize', 'portfolio-jpg-images','watch']);
